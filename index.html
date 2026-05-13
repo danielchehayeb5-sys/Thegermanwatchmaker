@@ -208,9 +208,150 @@
       flex-shrink: 0;
     }
 
-    /* ── Responsive helpers ── */
-    @media (max-width: 640px) {
-      .hero-headline { font-size: 2.5rem !important; }
+    /* ══════════════════════════════════════
+       MOBILE NAV — hamburger + slide-down menu
+    ══════════════════════════════════════ */
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0.35rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    #hamburger span {
+      display: block;
+      width: 20px;
+      height: 1.5px;
+      background: rgba(245,240,232,0.9);
+      border-radius: 1px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+      transform-origin: center;
+    }
+    #hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    #hamburger:focus-visible { outline: 2px solid #D4AF6A; outline-offset: 3px; }
+
+    #mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(20,18,16,0.98);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(184,150,62,0.18);
+      flex-direction: column;
+      padding-bottom: 1rem;
+      z-index: 99;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      display: block;
+      padding: 0.9rem 1.5rem;
+      color: rgba(245,240,232,0.75);
+      font-family: "Inter", sans-serif;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+    #mobile-menu a:hover { color: #D4AF6A; background: rgba(255,255,255,0.03); }
+    #mobile-menu a:last-child { border-bottom: none; }
+    #mobile-menu .mobile-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.75rem 1.5rem 0;
+      padding: 0.8rem 1.5rem;
+      background: #B8963E;
+      color: #FEFCF8;
+      font-weight: 500;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      box-shadow: 0 2px 8px rgba(184,150,62,0.25);
+      border-bottom: none !important;
+    }
+    #mobile-menu .mobile-cta:hover { background: #D4AF6A; color: #FEFCF8; }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE — Tablet & Mobile
+    ══════════════════════════════════════ */
+
+    /* Show hamburger, hide desktop nav links on small screens */
+    @media (max-width: 767px) {
+      #hamburger { display: flex; }
+
+      /* Hero: reduce massive top/bottom padding */
+      .hero-content { padding-top: 6.5rem !important; padding-bottom: 3.5rem !important; }
+      .hero-headline { font-size: 2.4rem !important; line-height: 1.12 !important; }
+
+      /* Section vertical padding — override inline styles */
+      #services      { padding: 4rem 0 !important; }
+      #about         { padding: 4.5rem 0 !important; }
+      #reviews       { padding: 4.5rem 0 !important; }
+      #visit         { padding: 4rem 0 !important; }
+      #cta           { padding: 4rem 0 !important; }
+      #photos-needed { padding: 3.5rem 0 !important; }
+
+      /* Section h2 headings — scale down */
+      .section-h2 { font-size: 2rem !important; }
+      #cta h2      { font-size: 2.1rem !important; }
+
+      /* Button groups: full-width stacked on mobile */
+      .btn-stack { flex-direction: column !important; }
+      .btn-stack > a {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* About photo: loosen the fixed height */
+      .about-photo-img { height: 280px !important; }
+
+      /* Photo strip: shorter tiles on mobile */
+      .photo-strip-item { height: 170px !important; }
+
+      /* Trust bar: tighten padding */
+      #trust .trust-inner { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+
+      /* Map placeholder: shorter on mobile */
+      .map-placeholder { min-height: 200px !important; }
+
+      /* Service card: slightly less padding */
+      .service-card { padding: 1.5rem 1.25rem; }
+
+      /* Review card: slightly less padding */
+      .review-card { padding: 1.5rem; }
+
+      /* Photos needed cards */
+      #photos-needed .photo-card { padding: 1.25rem; }
+    }
+
+    /* Extra-small phones (375px and below) */
+    @media (max-width: 430px) {
+      .hero-headline { font-size: 2rem !important; }
+
+      /* Prevent rating badge from overflowing */
+      .rating-badge { flex-wrap: wrap; gap: 0.35rem !important; }
+
+      /* Reviews meta row — wrap so it doesn't overflow */
+      .reviews-meta { flex-wrap: wrap; row-gap: 0.2rem !important; justify-content: center; }
+      .reviews-meta .sep { display: none; }
+
+      /* Reduce px-6 (1.5rem) to px-4 (1rem) for very tight screens */
+      .px-mobile { padding-left: 1rem !important; padding-right: 1rem !important; }
+
+      /* Footer text */
+      footer .footer-addr { display: none; }
     }
   </style>
 </head>
@@ -220,24 +361,40 @@
   <!-- ══════════════════════════════════════════
        NAVIGATION
   ══════════════════════════════════════════ -->
-  <nav id="nav">
+  <nav id="nav" style="position:relative;">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
       <!-- Logo wordmark -->
       <a href="#" class="flex flex-col leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
         <span class="font-display text-cream text-base font-semibold tracking-wide">The German Watchmaker</span>
         <span class="text-stone-light text-xs tracking-widest uppercase mt-0.5" style="font-size:0.6rem">Yaletown · Vancouver</span>
       </a>
-      <!-- Nav links (desktop) -->
+      <!-- Nav links (desktop only) -->
       <div class="hidden md:flex items-center gap-8">
         <a href="#services" class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">Services</a>
         <a href="#about"    class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">About</a>
         <a href="#reviews"  class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">Reviews</a>
         <a href="#visit"    class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">Visit</a>
       </div>
-      <!-- CTA -->
-      <a href="tel:+16046815412" class="btn-gold text-xs hidden sm:inline-flex">
+      <!-- Desktop CTA (hidden on small screens) -->
+      <a href="tel:+16046815412" class="btn-gold text-xs hidden md:inline-flex">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
         (604) 681-5412
+      </a>
+      <!-- Hamburger (mobile only) -->
+      <button id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile slide-down menu -->
+    <div id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#visit">Visit</a>
+      <a href="tel:+16046815412" class="mobile-cta">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+        Call (604) 681-5412
       </a>
     </div>
   </nav>
@@ -247,15 +404,25 @@
   ══════════════════════════════════════════ -->
   <section id="hero" style="background-color:#1C1C1A; min-height: 100vh; position:relative; display:flex; align-items:center; overflow:hidden;">
 
-    <!-- Background radial gradients for depth -->
-    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 40%, rgba(184,150,62,0.08) 0%, transparent 70%), radial-gradient(ellipse 40% 60% at 20% 80%, rgba(45,41,38,0.8) 0%, transparent 60%); pointer-events:none;"></div>
+    <!--
+      Temporary image — replace with real client photo later.
+      Source: Unsplash (free to use for prototyping)
+      URL: https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1920&q=85
+      Suggested replacement: a photo of the shop interior, workbench, or a watch being repaired
+    -->
+    <img
+      src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1920&q=85"
+      alt="Elegant close-up of a mechanical watch"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;"
+    />
 
-    <!-- Decorative watch-face circle -->
-    <div style="position:absolute;right:-8rem;top:50%;transform:translateY(-50%);width:36rem;height:36rem;border-radius:50%;border:1px solid rgba(184,150,62,0.08);pointer-events:none;"></div>
-    <div style="position:absolute;right:-6rem;top:50%;transform:translateY(-50%);width:28rem;height:28rem;border-radius:50%;border:1px solid rgba(184,150,62,0.06);pointer-events:none;"></div>
-    <div style="position:absolute;right:-3.5rem;top:50%;transform:translateY(-50%);width:20rem;height:20rem;border-radius:50%;border:1px solid rgba(184,150,62,0.1);pointer-events:none;"></div>
+    <!-- Dark overlay so text stays readable -->
+    <div style="position:absolute;inset:0;background:linear-gradient(105deg, rgba(20,18,16,0.88) 0%, rgba(20,18,16,0.70) 55%, rgba(20,18,16,0.50) 100%);pointer-events:none;"></div>
 
-    <div class="max-w-6xl mx-auto px-6 py-32 relative z-10 w-full">
+    <!-- Subtle gold radial glow over image -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 75% 45%, rgba(184,150,62,0.06) 0%, transparent 65%);pointer-events:none;"></div>
+
+    <div class="hero-content max-w-6xl mx-auto px-6 py-32 relative z-10 w-full">
       <div class="max-w-2xl">
 
         <!-- Label -->
@@ -275,7 +442,7 @@
         </p>
 
         <!-- Rating badge -->
-        <div class="flex items-center gap-3 mb-10">
+        <div class="rating-badge flex items-center gap-3 mb-10">
           <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(184,150,62,0.12);border:1px solid rgba(184,150,62,0.25);padding:0.5rem 1rem;border-radius:2px;">
             <span class="stars" style="font-size:0.85rem;">★★★★★</span>
             <span class="text-cream font-semibold text-sm">4.9</span>
@@ -284,12 +451,12 @@
         </div>
 
         <!-- CTA buttons -->
-        <div class="flex flex-wrap gap-4">
+        <div class="btn-stack flex flex-wrap gap-4">
           <a href="tel:+16046815412" class="btn-gold">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
             Call the Shop
           </a>
-          <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC" target="_blank" rel="noopener" class="btn-outline">
+          <a href="https://www.google.com/maps/search/The+German+Watchmaker+1208+Homer+St+%23125+Vancouver+BC" target="_blank" rel="noopener" class="btn-outline">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
             Get Directions
           </a>
@@ -298,8 +465,8 @@
       </div>
     </div>
 
-    <!-- Bottom fade to cream -->
-    <div style="position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,#F5F0E8);pointer-events:none;"></div>
+    <!-- Bottom fade -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(to bottom,transparent,#F5F0E8);pointer-events:none;"></div>
   </section>
 
 
@@ -307,7 +474,7 @@
        2. TRUST BAR
   ══════════════════════════════════════════ -->
   <section id="trust" style="background-color:#F5F0E8;border-top:1px solid rgba(184,150,62,0.15);border-bottom:1px solid rgba(184,150,62,0.15);">
-    <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="trust-inner max-w-6xl mx-auto px-6 py-10">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
         <!-- Item 1 -->
@@ -369,10 +536,60 @@
       <div class="text-center mb-14">
         <p class="section-label mb-3">What We Do</p>
         <div class="gold-rule mb-5"></div>
-        <h2 class="font-display text-charcoal mb-4" style="font-size:2.5rem;letter-spacing:-0.03em;line-height:1.2;">Services</h2>
+        <h2 class="section-h2 font-display text-charcoal mb-4" style="font-size:2.5rem;letter-spacing:-0.03em;line-height:1.2;">Services</h2>
         <p class="text-stone mx-auto text-sm" style="max-width:38rem;line-height:1.75;">
           The following are common watch repair and maintenance services — please confirm the full list and pricing directly with the shop.
         </p>
+      </div>
+
+      <!-- Photo strip — temporary images, replace with real client photos later -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
+
+        <!--
+          Temporary image — replace with real client photo later.
+          Source: Unsplash · watch repair workbench
+          URL: https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&w=600&h=380&q=80
+        -->
+        <div class="photo-strip-item" style="position:relative;overflow:hidden;border-radius:4px;height:220px;">
+          <img
+            src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&w=600&h=380&q=80"
+            alt="Watch repair workbench with tools"
+            style="width:100%;height:100%;object-fit:cover;object-position:center;"
+          />
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(28,28,26,0.45) 0%,transparent 60%);"></div>
+          <p style="position:absolute;bottom:0.75rem;left:1rem;font-size:0.65rem;color:rgba(245,240,232,0.7);letter-spacing:0.1em;text-transform:uppercase;font-family:Inter,sans-serif;">Repair Workbench</p>
+        </div>
+
+        <!--
+          Temporary image — replace with real client photo later.
+          Source: Unsplash · mechanical watch movement close-up
+          URL: https://images.unsplash.com/photo-1548169874-53e85f753f1e?auto=format&fit=crop&w=600&h=380&q=80
+        -->
+        <div class="photo-strip-item" style="position:relative;overflow:hidden;border-radius:4px;height:220px;">
+          <img
+            src="https://images.unsplash.com/photo-1548169874-53e85f753f1e?auto=format&fit=crop&w=600&h=380&q=80"
+            alt="Close-up of mechanical watch movement"
+            style="width:100%;height:100%;object-fit:cover;object-position:center;"
+          />
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(28,28,26,0.45) 0%,transparent 60%);"></div>
+          <p style="position:absolute;bottom:0.75rem;left:1rem;font-size:0.65rem;color:rgba(245,240,232,0.7);letter-spacing:0.1em;text-transform:uppercase;font-family:Inter,sans-serif;">Movement Detail</p>
+        </div>
+
+        <!--
+          Temporary image — replace with real client photo later.
+          Source: Unsplash · vintage pocket watch
+          URL: https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?auto=format&fit=crop&w=600&h=380&q=80
+        -->
+        <div class="photo-strip-item" style="position:relative;overflow:hidden;border-radius:4px;height:220px;">
+          <img
+            src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?auto=format&fit=crop&w=600&h=380&q=80"
+            alt="Elegant vintage timepiece"
+            style="width:100%;height:100%;object-fit:cover;object-position:center;"
+          />
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(28,28,26,0.45) 0%,transparent 60%);"></div>
+          <p style="position:absolute;bottom:0.75rem;left:1rem;font-size:0.65rem;color:rgba(245,240,232,0.7);letter-spacing:0.1em;text-transform:uppercase;font-family:Inter,sans-serif;">Vintage Timepieces</p>
+        </div>
+
       </div>
 
       <!-- Service cards grid -->
@@ -458,7 +675,7 @@
         <div>
           <p class="section-label mb-3">About the Shop</p>
           <div class="gold-rule mb-6" style="margin-left:0;"></div>
-          <h2 class="font-display text-cream mb-6" style="font-size:2.5rem;letter-spacing:-0.03em;line-height:1.2;">
+          <h2 class="section-h2 font-display text-cream mb-6" style="font-size:2.5rem;letter-spacing:-0.03em;line-height:1.2;">
             Honest repairs.<br />
             <em style="color:#D4AF6A;">No shortcuts.</em>
           </h2>
@@ -486,26 +703,29 @@
           </div>
         </div>
 
-        <!-- Right: decorative watch face -->
+        <!-- Right: real photo — replace with client photo later -->
         <div class="flex justify-center lg:justify-end">
-          <div style="position:relative;width:18rem;height:18rem;">
-            <!-- Outer ring -->
-            <div style="position:absolute;inset:0;border-radius:50%;border:1px solid rgba(184,150,62,0.2);"></div>
-            <!-- Middle ring -->
-            <div style="position:absolute;inset:1.5rem;border-radius:50%;border:1px solid rgba(184,150,62,0.15);background:rgba(255,255,255,0.02);"></div>
-            <!-- Inner face -->
-            <div style="position:absolute;inset:3rem;border-radius:50%;background:rgba(28,28,26,0.8);border:1px solid rgba(184,150,62,0.25);display:flex;align-items:center;justify-content:center;">
-              <div style="text-align:center;">
-                <p class="font-display text-gold-light" style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;">The German</p>
-                <p class="font-display text-cream" style="font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.15rem;">Watchmaker</p>
-                <!-- Hour markers -->
-              </div>
+          <!--
+            Temporary image — replace with real client photo later.
+            Source: Unsplash · watch movement / precision craft detail
+            URL: https://images.unsplash.com/photo-1548169874-53e85f753f1e?auto=format&fit=crop&w=720&h=820&q=80
+            Suggested replacement: a photo of the shop owner at the bench, or tools laid out
+          -->
+          <div style="position:relative;width:100%;max-width:26rem;border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.4),0 2px 8px rgba(0,0,0,0.3);">
+            <img
+              src="https://images.unsplash.com/photo-1548169874-53e85f753f1e?auto=format&fit=crop&w=720&h=820&q=80"
+              alt="Mechanical watch movement detail"
+              class="about-photo-img"
+              style="width:100%;height:420px;object-fit:cover;object-position:center;display:block;"
+            />
+            <!-- Gold tint overlay -->
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(28,28,26,0.65) 100%);mix-blend-mode:normal;"></div>
+            <!-- Caption badge -->
+            <div style="position:absolute;bottom:1.25rem;left:1.25rem;right:1.25rem;">
+              <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:0.95rem;color:rgba(245,240,232,0.85);line-height:1.5;">"Every watch gets the same level of care."</p>
             </div>
-            <!-- Hour markers (12, 3, 6, 9) -->
-            <div style="position:absolute;top:0.5rem;left:50%;transform:translateX(-50%);width:2px;height:0.75rem;background:#B8963E;border-radius:1px;opacity:0.7;"></div>
-            <div style="position:absolute;bottom:0.5rem;left:50%;transform:translateX(-50%);width:2px;height:0.75rem;background:#B8963E;border-radius:1px;opacity:0.4;"></div>
-            <div style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);height:2px;width:0.75rem;background:#B8963E;border-radius:1px;opacity:0.4;"></div>
-            <div style="position:absolute;left:0.5rem;top:50%;transform:translateY(-50%);height:2px;width:0.75rem;background:#B8963E;border-radius:1px;opacity:0.4;"></div>
+            <!-- Gold border accent -->
+            <div style="position:absolute;inset:0;border:1px solid rgba(184,150,62,0.2);border-radius:4px;pointer-events:none;"></div>
           </div>
         </div>
 
@@ -525,13 +745,13 @@
       <div class="text-center mb-14">
         <p class="section-label mb-3">What Customers Say</p>
         <div class="gold-rule mb-5"></div>
-        <h2 class="font-display text-cream mb-3" style="font-size:2.5rem;letter-spacing:-0.03em;">Customer Reviews</h2>
-        <div class="flex items-center justify-center gap-3 mt-4">
+        <h2 class="section-h2 font-display text-cream mb-3" style="font-size:2.5rem;letter-spacing:-0.03em;">Customer Reviews</h2>
+        <div class="reviews-meta flex items-center justify-center gap-3 mt-4">
           <span class="stars" style="font-size:1.1rem;">★★★★★</span>
           <span class="text-cream font-semibold">4.9</span>
-          <span class="text-cream/40 text-sm">·</span>
+          <span class="sep text-cream/40 text-sm">·</span>
           <span class="text-cream/50 text-sm">458 reviews on Google</span>
-          <span class="text-cream/40 text-sm">·</span>
+          <span class="sep text-cream/40 text-sm">·</span>
           <span class="text-cream/50 text-sm">5/5 on Yellow Pages</span>
         </div>
       </div>
@@ -612,7 +832,7 @@
       <div class="text-center mb-14">
         <p class="section-label mb-3">Come See Us</p>
         <div class="gold-rule mb-5"></div>
-        <h2 class="font-display text-charcoal" style="font-size:2.5rem;letter-spacing:-0.03em;">Visit the Shop</h2>
+        <h2 class="section-h2 font-display text-charcoal" style="font-size:2.5rem;letter-spacing:-0.03em;">Visit the Shop</h2>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -634,33 +854,49 @@
             <a href="tel:+16046815412" class="font-display text-charcoal text-xl hover:text-gold transition-colors duration-200">(604) 681-5412</a>
           </div>
 
-          <!-- Hours (placeholder) -->
+          <!-- Hours -->
           <div class="mb-10">
             <p class="section-label mb-3">Hours</p>
             <div style="background:#FEFCF8;border:1px solid rgba(184,150,62,0.2);border-radius:4px;padding:1.25rem 1.5rem;">
               <div class="flex justify-between text-sm mb-2">
-                <span class="text-charcoal font-medium">Monday – Friday</span>
-                <span class="text-stone">[To be confirmed]</span>
+                <span class="text-charcoal font-medium">Monday</span>
+                <span class="text-stone">10:00 am – 5:30 pm</span>
               </div>
               <div class="flex justify-between text-sm mb-2">
+                <span class="text-charcoal font-medium">Tuesday</span>
+                <span class="text-stone">10:00 am – 5:30 pm</span>
+              </div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-charcoal font-medium">Wednesday</span>
+                <span class="text-stone">10:00 am – 5:30 pm</span>
+              </div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-charcoal font-medium">Thursday</span>
+                <span class="text-stone">10:00 am – 5:30 pm</span>
+              </div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-charcoal font-medium">Friday</span>
+                <span class="text-stone">10:00 am – 5:30 pm</span>
+              </div>
+              <div class="flex justify-between text-sm mb-2" style="border-top:1px solid rgba(184,150,62,0.1);padding-top:0.6rem;margin-top:0.4rem;">
                 <span class="text-charcoal font-medium">Saturday</span>
-                <span class="text-stone">[To be confirmed]</span>
+                <span style="color:#9C9590;font-style:italic;font-size:0.8rem;">Closed</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-charcoal font-medium">Sunday</span>
-                <span class="text-stone">[To be confirmed]</span>
+                <span style="color:#9C9590;font-style:italic;font-size:0.8rem;">Closed</span>
               </div>
-              <p class="text-stone text-xs mt-3 pt-3" style="border-top:1px solid rgba(184,150,62,0.15);">✦ Please call ahead to confirm current hours.</p>
+              <p class="text-stone text-xs mt-3 pt-3" style="border-top:1px solid rgba(184,150,62,0.15);">✦ Call ahead to confirm holiday hours.</p>
             </div>
           </div>
 
           <!-- Buttons -->
-          <div class="flex flex-wrap gap-4">
+          <div class="btn-stack flex flex-wrap gap-4">
             <a href="tel:+16046815412" class="btn-gold">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
               Call Now
             </a>
-            <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC" target="_blank" rel="noopener" class="btn-outline-dark">
+            <a href="https://www.google.com/maps/search/The+German+Watchmaker+1208+Homer+St+%23125+Vancouver+BC" target="_blank" rel="noopener" class="btn-outline-dark">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
               Get Directions
             </a>
@@ -675,7 +911,7 @@
             </div>
             <p class="font-display text-cream/60 text-lg">Yaletown, Vancouver</p>
             <p class="text-cream/40 text-sm text-center px-8" style="line-height:1.7;">1208 Homer St #125 · Vancouver, BC V6B 2Y5</p>
-            <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC"
+            <a href="https://www.google.com/maps/search/The+German+Watchmaker+1208+Homer+St+%23125+Vancouver+BC"
                target="_blank" rel="noopener"
                style="margin-top:0.5rem;font-size:0.75rem;color:#B8963E;text-decoration:underline;text-underline-offset:3px;letter-spacing:0.04em;">
               Open in Google Maps ↗
@@ -706,16 +942,83 @@
       <p class="text-cream/50 mb-10 text-base" style="line-height:1.8;max-width:26rem;margin-left:auto;margin-right:auto;">
         Drop by the shop in Yaletown or give us a call — we're happy to take a look and let you know what's needed.
       </p>
-      <div class="flex flex-wrap gap-4 justify-center">
+      <div class="btn-stack flex flex-wrap gap-4 justify-center">
         <a href="tel:+16046815412" class="btn-gold" style="padding:0.875rem 2.25rem;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
           Call (604) 681-5412
         </a>
-        <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC" target="_blank" rel="noopener" class="btn-outline" style="padding:0.875rem 2.25rem;">
+        <a href="https://www.google.com/maps/search/The+German+Watchmaker+1208+Homer+St+%23125+Vancouver+BC" target="_blank" rel="noopener" class="btn-outline" style="padding:0.875rem 2.25rem;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
           Get Directions
         </a>
       </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       8. PHOTOS NEEDED (prototype note for client)
+  ══════════════════════════════════════════ -->
+  <section id="photos-needed" style="background-color:#EBE4D4;padding:5rem 0;border-top:1px solid rgba(184,150,62,0.2);">
+    <div class="max-w-4xl mx-auto px-6">
+
+      <div class="text-center mb-10">
+        <p class="section-label mb-3">For the Final Website</p>
+        <div class="gold-rule mb-5"></div>
+        <h2 class="font-display text-charcoal mb-3" style="font-size:2rem;letter-spacing:-0.03em;">Photos to Confirm with the Shop</h2>
+        <p class="text-stone text-sm mx-auto" style="max-width:34rem;line-height:1.75;">
+          The images currently shown are temporary placeholders from Unsplash. To complete the final website, we'd love real photos from the shop.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+        <div style="background:#FEFCF8;border:1px solid rgba(184,150,62,0.18);border-radius:4px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:2.25rem;height:2.25rem;flex-shrink:0;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-1">Storefront Photo</p>
+            <p class="text-stone text-xs" style="line-height:1.7;">A clear exterior or entrance photo of the Yaletown Shops location — great for local trust and recognition.</p>
+          </div>
+        </div>
+
+        <div style="background:#FEFCF8;border:1px solid rgba(184,150,62,0.18);border-radius:4px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:2.25rem;height:2.25rem;flex-shrink:0;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-1">Repair Workbench</p>
+            <p class="text-stone text-xs" style="line-height:1.7;">A photo of the work area — tools, loupe, movement parts — shows craft and authenticity to potential customers.</p>
+          </div>
+        </div>
+
+        <div style="background:#FEFCF8;border:1px solid rgba(184,150,62,0.18);border-radius:4px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:2.25rem;height:2.25rem;flex-shrink:0;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-1">Close-up of Watches or Tools</p>
+            <p class="text-stone text-xs" style="line-height:1.7;">Macro detail shots of movements, tools, or watches being worked on — ideal for the hero and services sections.</p>
+          </div>
+        </div>
+
+        <div style="background:#FEFCF8;border:1px solid rgba(184,150,62,0.18);border-radius:4px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:2.25rem;height:2.25rem;flex-shrink:0;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-1">Shop Owner / Team Photo</p>
+            <p class="text-stone text-xs" style="line-height:1.7;">A portrait or candid of the watchmaker at work — optional but adds a personal, trustworthy touch to the About section.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="text-center text-stone text-xs mt-8" style="line-height:1.8;">
+        All temporary image URLs are clearly commented in the HTML source and easy to replace. No other code needs to change.
+      </p>
+
     </div>
   </section>
 
@@ -726,8 +1029,9 @@
   <footer style="background-color:#141412;padding:2.5rem 1.5rem;text-align:center;border-top:1px solid rgba(184,150,62,0.1);">
     <p class="font-display text-cream/50 text-sm mb-1">The German Watchmaker</p>
     <p class="text-cream/30 text-xs">1208 Homer St #125 · Yaletown Shops · Vancouver, BC V6B 2Y5</p>
+    <p class="text-cream/30 text-xs mt-2">Mon – Fri &nbsp;·&nbsp; 10:00 am – 5:30 pm &nbsp;·&nbsp; Sat &amp; Sun Closed</p>
     <p class="text-cream/20 text-xs mt-4" style="font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;">
-      Prototype — content to be confirmed with the client
+      Prototype — images are temporary · final details to be confirmed with the client
     </p>
   </footer>
 
@@ -736,7 +1040,7 @@
        SCRIPTS
   ══════════════════════════════════════════ -->
   <script>
-    // Scroll-activated nav background
+    // ── Scroll-activated nav background ──
     const nav = document.getElementById("nav");
     const onScroll = () => {
       nav.classList.toggle("scrolled", window.scrollY > 60);
@@ -744,7 +1048,37 @@
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 
-    // Smooth active-link highlighting
+    // ── Mobile hamburger menu ──
+    const hamburger   = document.getElementById("hamburger");
+    const mobileMenu  = document.getElementById("mobile-menu");
+
+    hamburger.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("open");
+      hamburger.classList.toggle("open", isOpen);
+      hamburger.setAttribute("aria-expanded", isOpen);
+      hamburger.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    });
+
+    // Close menu when any link inside it is tapped
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        hamburger.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+        hamburger.setAttribute("aria-label", "Open menu");
+      });
+    });
+
+    // Close menu on outside tap
+    document.addEventListener("click", (e) => {
+      if (!nav.contains(e.target)) {
+        mobileMenu.classList.remove("open");
+        hamburger.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // ── Active nav link highlighting ──
     const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll("nav a[href^='#']");
     const observer = new IntersectionObserver(
