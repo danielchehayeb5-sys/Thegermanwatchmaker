@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The German Watchmaker — Expert Watch Repair in Yaletown, Vancouver</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Playfair Display (headings) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:   { DEFAULT: "#F5F0E8", dark: "#EBE4D4", light: "#FEFCF8" },
+            charcoal:{ DEFAULT: "#1C1C1A", light: "#2D2926", mid: "#3D3935" },
+            gold:    { DEFAULT: "#B8963E", light: "#D4AF6A", dark: "#8B6914", pale: "#F0E4C4" },
+            stone:   { DEFAULT: "#6B6560", light: "#9C9590" },
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', "Georgia", "serif"],
+            sans:    ["Inter", "system-ui", "sans-serif"],
+          },
+          letterSpacing: {
+            display: "-0.03em",
+          },
+          lineHeight: {
+            prose: "1.75",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background-color: #F5F0E8;
+      color: #1C1C1A;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Grain texture overlay ── */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── Typography ── */
+    .font-display { font-family: "Playfair Display", Georgia, serif; }
+
+    /* ── Buttons ── */
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #B8963E;
+      color: #FEFCF8;
+      font-family: "Inter", sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2px;
+      transition: background-color 0.2s ease, transform 0.15s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+      box-shadow: 0 2px 8px rgba(184,150,62,0.25), 0 1px 2px rgba(0,0,0,0.15);
+    }
+    .btn-gold:hover  { background-color: #D4AF6A; box-shadow: 0 4px 16px rgba(184,150,62,0.35), 0 2px 4px rgba(0,0,0,0.2); transform: translateY(-1px); }
+    .btn-gold:active { background-color: #8B6914; transform: translateY(0); }
+    .btn-gold:focus-visible { outline: 2px solid #D4AF6A; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: transparent;
+      color: #F5F0E8;
+      font-family: "Inter", sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2px;
+      border: 1.5px solid rgba(245,240,232,0.4);
+      transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn-outline:hover  { border-color: rgba(245,240,232,0.9); background-color: rgba(245,240,232,0.08); transform: translateY(-1px); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #D4AF6A; outline-offset: 3px; }
+
+    .btn-outline-dark {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: transparent;
+      color: #1C1C1A;
+      font-family: "Inter", sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2px;
+      border: 1.5px solid rgba(28,28,26,0.3);
+      transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn-outline-dark:hover  { border-color: #B8963E; color: #B8963E; transform: translateY(-1px); }
+    .btn-outline-dark:active { transform: translateY(0); }
+    .btn-outline-dark:focus-visible { outline: 2px solid #B8963E; outline-offset: 3px; }
+
+    /* ── Divider rule ── */
+    .gold-rule {
+      width: 3rem;
+      height: 1.5px;
+      background: linear-gradient(90deg, #B8963E, #D4AF6A, #B8963E);
+      margin: 0 auto;
+    }
+
+    /* ── Service cards ── */
+    .service-card {
+      background: #FEFCF8;
+      border: 1px solid rgba(184,150,62,0.15);
+      border-radius: 4px;
+      padding: 2rem 1.75rem;
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 1px 3px rgba(28,28,26,0.06), 0 4px 12px rgba(28,28,26,0.04);
+    }
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px rgba(184,150,62,0.12), 0 8px 24px rgba(28,28,26,0.08);
+      border-color: rgba(184,150,62,0.35);
+    }
+
+    /* ── Review cards ── */
+    .review-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(245,240,232,0.1);
+      border-radius: 4px;
+      padding: 2rem;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-family: "Inter", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #B8963E;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    nav.scrolled {
+      background-color: rgba(28,28,26,0.97);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 1px 0 rgba(184,150,62,0.15);
+    }
+
+    /* ── Map placeholder ── */
+    .map-placeholder {
+      background: linear-gradient(135deg, #2D2926 0%, #1C1C1A 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      min-height: 280px;
+      border-radius: 4px;
+      border: 1px solid rgba(184,150,62,0.2);
+    }
+
+    /* ── Stars ── */
+    .stars { color: #D4AF6A; letter-spacing: 0.05em; }
+
+    /* ── Trust bar icon circles ── */
+    .trust-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: rgba(184,150,62,0.12);
+      border: 1px solid rgba(184,150,62,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Responsive helpers ── */
+    @media (max-width: 640px) {
+      .hero-headline { font-size: 2.5rem !important; }
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ══════════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════ -->
+  <nav id="nav">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo wordmark -->
+      <a href="#" class="flex flex-col leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
+        <span class="font-display text-cream text-base font-semibold tracking-wide">The German Watchmaker</span>
+        <span class="text-stone-light text-xs tracking-widest uppercase mt-0.5" style="font-size:0.6rem">Yaletown · Vancouver</span>
+      </a>
+      <!-- Nav links (desktop) -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#services" class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">Services</a>
+        <a href="#about"    class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">About</a>
+        <a href="#reviews"  class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">Reviews</a>
+        <a href="#visit"    class="text-cream/70 hover:text-cream text-sm transition-colors duration-200">Visit</a>
+      </div>
+      <!-- CTA -->
+      <a href="tel:+16046815412" class="btn-gold text-xs hidden sm:inline-flex">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+        (604) 681-5412
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       1. HERO
+  ══════════════════════════════════════════ -->
+  <section id="hero" style="background-color:#1C1C1A; min-height: 100vh; position:relative; display:flex; align-items:center; overflow:hidden;">
+
+    <!-- Background radial gradients for depth -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 40%, rgba(184,150,62,0.08) 0%, transparent 70%), radial-gradient(ellipse 40% 60% at 20% 80%, rgba(45,41,38,0.8) 0%, transparent 60%); pointer-events:none;"></div>
+
+    <!-- Decorative watch-face circle -->
+    <div style="position:absolute;right:-8rem;top:50%;transform:translateY(-50%);width:36rem;height:36rem;border-radius:50%;border:1px solid rgba(184,150,62,0.08);pointer-events:none;"></div>
+    <div style="position:absolute;right:-6rem;top:50%;transform:translateY(-50%);width:28rem;height:28rem;border-radius:50%;border:1px solid rgba(184,150,62,0.06);pointer-events:none;"></div>
+    <div style="position:absolute;right:-3.5rem;top:50%;transform:translateY(-50%);width:20rem;height:20rem;border-radius:50%;border:1px solid rgba(184,150,62,0.1);pointer-events:none;"></div>
+
+    <div class="max-w-6xl mx-auto px-6 py-32 relative z-10 w-full">
+      <div class="max-w-2xl">
+
+        <!-- Label -->
+        <p class="section-label mb-6">Vancouver · Yaletown Shops</p>
+
+        <!-- Headline -->
+        <h1 class="font-display hero-headline text-cream leading-tight mb-6"
+            style="font-size:3.75rem;letter-spacing:-0.03em;line-height:1.1;">
+          Expert Watch Repair<br />
+          <em style="color:#D4AF6A;font-style:italic;">in the Heart of</em><br />
+          Yaletown
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-cream/60 text-lg mb-3" style="line-height:1.7;font-weight:300;max-width:30rem;">
+          The German Watchmaker brings careful, honest craftsmanship to every repair — from a battery swap to a delicate vintage movement.
+        </p>
+
+        <!-- Rating badge -->
+        <div class="flex items-center gap-3 mb-10">
+          <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(184,150,62,0.12);border:1px solid rgba(184,150,62,0.25);padding:0.5rem 1rem;border-radius:2px;">
+            <span class="stars" style="font-size:0.85rem;">★★★★★</span>
+            <span class="text-cream font-semibold text-sm">4.9</span>
+            <span class="text-cream/50 text-xs">Google · 458 reviews</span>
+          </div>
+        </div>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-wrap gap-4">
+          <a href="tel:+16046815412" class="btn-gold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+            Call the Shop
+          </a>
+          <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC" target="_blank" rel="noopener" class="btn-outline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Get Directions
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom fade to cream -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,#F5F0E8);pointer-events:none;"></div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       2. TRUST BAR
+  ══════════════════════════════════════════ -->
+  <section id="trust" style="background-color:#F5F0E8;border-top:1px solid rgba(184,150,62,0.15);border-bottom:1px solid rgba(184,150,62,0.15);">
+    <div class="max-w-6xl mx-auto px-6 py-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <!-- Item 1 -->
+        <div class="flex items-start gap-4">
+          <div class="trust-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-0.5">Yaletown, Vancouver</p>
+            <p class="text-stone text-xs" style="line-height:1.6;">1208 Homer St #125 — easy to find in the heart of the city.</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="flex items-start gap-4">
+          <div class="trust-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-0.5">4.9 ★ Google Rating</p>
+            <p class="text-stone text-xs" style="line-height:1.6;">458 reviews from satisfied customers across the Lower Mainland.</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="flex items-start gap-4">
+          <div class="trust-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-0.5">Trusted by Locals</p>
+            <p class="text-stone text-xs" style="line-height:1.6;">A long-standing reputation built on honest pricing and quality work.</p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="flex items-start gap-4">
+          <div class="trust-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-charcoal text-sm mb-0.5">Clear Communication</p>
+            <p class="text-stone text-xs" style="line-height:1.6;">Takes time to answer every question — no jargon, no surprises.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       3. SERVICES
+  ══════════════════════════════════════════ -->
+  <section id="services" style="background-color:#FEFCF8;padding:6rem 0;">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Section header -->
+      <div class="text-center mb-14">
+        <p class="section-label mb-3">What We Do</p>
+        <div class="gold-rule mb-5"></div>
+        <h2 class="font-display text-charcoal mb-4" style="font-size:2.5rem;letter-spacing:-0.03em;line-height:1.2;">Services</h2>
+        <p class="text-stone mx-auto text-sm" style="max-width:38rem;line-height:1.75;">
+          The following are common watch repair and maintenance services — please confirm the full list and pricing directly with the shop.
+        </p>
+      </div>
+
+      <!-- Service cards grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Card 1 -->
+        <div class="service-card">
+          <div style="width:2.5rem;height:2.5rem;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="font-display text-charcoal mb-2" style="font-size:1.15rem;">Mechanical Watch Repair</h3>
+          <p class="text-stone text-sm" style="line-height:1.75;">Diagnosis and repair of mechanical and automatic movements — hands, gears, escapements, and more.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="service-card">
+          <div style="width:2.5rem;height:2.5rem;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <h3 class="font-display text-charcoal mb-2" style="font-size:1.15rem;">Battery Replacement</h3>
+          <p class="text-stone text-sm" style="line-height:1.75;">Fast, careful battery replacement for quartz watches — done right so the case seal is properly restored.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="service-card">
+          <div style="width:2.5rem;height:2.5rem;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/><path d="M8 12h8M12 8v8"/></svg>
+          </div>
+          <h3 class="font-display text-charcoal mb-2" style="font-size:1.15rem;">Watch Cleaning &amp; Servicing</h3>
+          <p class="text-stone text-sm" style="line-height:1.75;">Full ultrasonic cleaning and movement servicing to restore performance and protect your timepiece long-term.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="service-card">
+          <div style="width:2.5rem;height:2.5rem;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="font-display text-charcoal mb-2" style="font-size:1.15rem;">Strap &amp; Bracelet Adjustments</h3>
+          <p class="text-stone text-sm" style="line-height:1.75;">Sizing, link removal, spring bar replacement, and strap fitting for a comfortable, secure fit.</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="service-card">
+          <div style="width:2.5rem;height:2.5rem;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </div>
+          <h3 class="font-display text-charcoal mb-2" style="font-size:1.15rem;">Vintage Watch Care</h3>
+          <p class="text-stone text-sm" style="line-height:1.75;">Sensitive handling of older and vintage timepieces — preserving originality while restoring reliable function.</p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="service-card">
+          <div style="width:2.5rem;height:2.5rem;background:rgba(184,150,62,0.1);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8963E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3 class="font-display text-charcoal mb-2" style="font-size:1.15rem;">Water Resistance Checks</h3>
+          <p class="text-stone text-sm" style="line-height:1.75;">Testing and restoration of water resistance ratings — especially important after any case opening or battery change.</p>
+        </div>
+
+      </div>
+
+      <!-- Disclaimer note -->
+      <p class="text-center text-stone text-xs mt-10" style="letter-spacing:0.02em;">
+        ✦ Services listed are common repair types — please call or visit the shop to confirm availability and pricing.
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       4. ABOUT
+  ══════════════════════════════════════════ -->
+  <section id="about" style="background:linear-gradient(160deg,#2D2926 0%,#1C1C1A 100%);padding:7rem 0;position:relative;overflow:hidden;">
+
+    <!-- Background accent -->
+    <div style="position:absolute;left:-10rem;bottom:-10rem;width:30rem;height:30rem;border-radius:50%;background:radial-gradient(circle,rgba(184,150,62,0.05) 0%,transparent 70%);pointer-events:none;"></div>
+
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: text -->
+        <div>
+          <p class="section-label mb-3">About the Shop</p>
+          <div class="gold-rule mb-6" style="margin-left:0;"></div>
+          <h2 class="font-display text-cream mb-6" style="font-size:2.5rem;letter-spacing:-0.03em;line-height:1.2;">
+            Honest repairs.<br />
+            <em style="color:#D4AF6A;">No shortcuts.</em>
+          </h2>
+          <p class="text-cream/60 mb-5" style="line-height:1.8;font-weight:300;">
+            The German Watchmaker has been a trusted fixture in Yaletown for years, serving Vancouver residents who care about their timepieces. Whether it's a daily driver or a treasured heirloom, every watch is treated with the same level of attention.
+          </p>
+          <p class="text-cream/60 mb-8" style="line-height:1.8;font-weight:300;">
+            The approach here is simple: assess the watch honestly, explain what's needed clearly, and do the work properly. No upselling, no vague estimates — just straightforward watch repair done with care.
+          </p>
+
+          <!-- Stats row (placeholder) -->
+          <div class="flex flex-wrap gap-8">
+            <div>
+              <p class="font-display text-gold text-3xl mb-0.5" style="letter-spacing:-0.02em;">[X]+</p>
+              <p class="text-cream/50 text-xs tracking-widest uppercase">Years in Vancouver</p>
+            </div>
+            <div>
+              <p class="font-display text-gold text-3xl mb-0.5" style="letter-spacing:-0.02em;">458</p>
+              <p class="text-cream/50 text-xs tracking-widest uppercase">Google Reviews</p>
+            </div>
+            <div>
+              <p class="font-display text-gold text-3xl mb-0.5" style="letter-spacing:-0.02em;">4.9 ★</p>
+              <p class="text-cream/50 text-xs tracking-widest uppercase">Average Rating</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: decorative watch face -->
+        <div class="flex justify-center lg:justify-end">
+          <div style="position:relative;width:18rem;height:18rem;">
+            <!-- Outer ring -->
+            <div style="position:absolute;inset:0;border-radius:50%;border:1px solid rgba(184,150,62,0.2);"></div>
+            <!-- Middle ring -->
+            <div style="position:absolute;inset:1.5rem;border-radius:50%;border:1px solid rgba(184,150,62,0.15);background:rgba(255,255,255,0.02);"></div>
+            <!-- Inner face -->
+            <div style="position:absolute;inset:3rem;border-radius:50%;background:rgba(28,28,26,0.8);border:1px solid rgba(184,150,62,0.25);display:flex;align-items:center;justify-content:center;">
+              <div style="text-align:center;">
+                <p class="font-display text-gold-light" style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;">The German</p>
+                <p class="font-display text-cream" style="font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.15rem;">Watchmaker</p>
+                <!-- Hour markers -->
+              </div>
+            </div>
+            <!-- Hour markers (12, 3, 6, 9) -->
+            <div style="position:absolute;top:0.5rem;left:50%;transform:translateX(-50%);width:2px;height:0.75rem;background:#B8963E;border-radius:1px;opacity:0.7;"></div>
+            <div style="position:absolute;bottom:0.5rem;left:50%;transform:translateX(-50%);width:2px;height:0.75rem;background:#B8963E;border-radius:1px;opacity:0.4;"></div>
+            <div style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);height:2px;width:0.75rem;background:#B8963E;border-radius:1px;opacity:0.4;"></div>
+            <div style="position:absolute;left:0.5rem;top:50%;transform:translateY(-50%);height:2px;width:0.75rem;background:#B8963E;border-radius:1px;opacity:0.4;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       5. REVIEWS
+  ══════════════════════════════════════════ -->
+  <section id="reviews" style="background-color:#1C1C1A;padding:7rem 0;position:relative;">
+
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Header -->
+      <div class="text-center mb-14">
+        <p class="section-label mb-3">What Customers Say</p>
+        <div class="gold-rule mb-5"></div>
+        <h2 class="font-display text-cream mb-3" style="font-size:2.5rem;letter-spacing:-0.03em;">Customer Reviews</h2>
+        <div class="flex items-center justify-center gap-3 mt-4">
+          <span class="stars" style="font-size:1.1rem;">★★★★★</span>
+          <span class="text-cream font-semibold">4.9</span>
+          <span class="text-cream/40 text-sm">·</span>
+          <span class="text-cream/50 text-sm">458 reviews on Google</span>
+          <span class="text-cream/40 text-sm">·</span>
+          <span class="text-cream/50 text-sm">5/5 on Yellow Pages</span>
+        </div>
+      </div>
+
+      <!-- Review cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Review 1 -->
+        <div class="review-card">
+          <div class="flex mb-4">
+            <span class="stars text-sm">★★★★★</span>
+          </div>
+          <p class="text-cream/75 text-sm mb-6" style="line-height:1.8;font-style:italic;">
+            "Price is always great and the quality of service and work is first rate."
+          </p>
+          <div class="flex items-center gap-3">
+            <div style="width:2rem;height:2rem;border-radius:50%;background:rgba(184,150,62,0.15);border:1px solid rgba(184,150,62,0.2);display:flex;align-items:center;justify-content:center;">
+              <span class="text-gold text-xs font-semibold">G</span>
+            </div>
+            <div>
+              <p class="text-cream/60 text-xs font-medium">Google Review</p>
+              <p class="text-cream/30 text-xs">Verified customer</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-card">
+          <div class="flex mb-4">
+            <span class="stars text-sm">★★★★★</span>
+          </div>
+          <p class="text-cream/75 text-sm mb-6" style="line-height:1.8;font-style:italic;">
+            "Great service experience as a customer — from the moment I walked in to picking up my watch."
+          </p>
+          <div class="flex items-center gap-3">
+            <div style="width:2rem;height:2rem;border-radius:50%;background:rgba(184,150,62,0.15);border:1px solid rgba(184,150,62,0.2);display:flex;align-items:center;justify-content:center;">
+              <span class="text-gold text-xs font-semibold">G</span>
+            </div>
+            <div>
+              <p class="text-cream/60 text-xs font-medium">Google Review</p>
+              <p class="text-cream/30 text-xs">Verified customer</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="review-card">
+          <div class="flex mb-4">
+            <span class="stars text-sm">★★★★★</span>
+          </div>
+          <p class="text-cream/75 text-sm mb-6" style="line-height:1.8;font-style:italic;">
+            "He answered all questions and helped all the customers in a timely manner."
+          </p>
+          <div class="flex items-center gap-3">
+            <div style="width:2rem;height:2rem;border-radius:50%;background:rgba(184,150,62,0.15);border:1px solid rgba(184,150,62,0.2);display:flex;align-items:center;justify-content:center;">
+              <span class="text-gold text-xs font-semibold">G</span>
+            </div>
+            <div>
+              <p class="text-cream/60 text-xs font-medium">Google Review</p>
+              <p class="text-cream/30 text-xs">Verified customer</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       6. VISIT
+  ══════════════════════════════════════════ -->
+  <section id="visit" style="background-color:#F5F0E8;padding:7rem 0;">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Header -->
+      <div class="text-center mb-14">
+        <p class="section-label mb-3">Come See Us</p>
+        <div class="gold-rule mb-5"></div>
+        <h2 class="font-display text-charcoal" style="font-size:2.5rem;letter-spacing:-0.03em;">Visit the Shop</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+        <!-- Left: info -->
+        <div>
+
+          <!-- Address -->
+          <div class="mb-8">
+            <p class="section-label mb-3">Address</p>
+            <p class="font-display text-charcoal text-xl mb-1">1208 Homer St #125</p>
+            <p class="text-stone">Vancouver, BC V6B 2Y5</p>
+            <p class="text-stone text-sm mt-1">Yaletown Shops</p>
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-8">
+            <p class="section-label mb-3">Phone</p>
+            <a href="tel:+16046815412" class="font-display text-charcoal text-xl hover:text-gold transition-colors duration-200">(604) 681-5412</a>
+          </div>
+
+          <!-- Hours (placeholder) -->
+          <div class="mb-10">
+            <p class="section-label mb-3">Hours</p>
+            <div style="background:#FEFCF8;border:1px solid rgba(184,150,62,0.2);border-radius:4px;padding:1.25rem 1.5rem;">
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-charcoal font-medium">Monday – Friday</span>
+                <span class="text-stone">[To be confirmed]</span>
+              </div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-charcoal font-medium">Saturday</span>
+                <span class="text-stone">[To be confirmed]</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-charcoal font-medium">Sunday</span>
+                <span class="text-stone">[To be confirmed]</span>
+              </div>
+              <p class="text-stone text-xs mt-3 pt-3" style="border-top:1px solid rgba(184,150,62,0.15);">✦ Please call ahead to confirm current hours.</p>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex flex-wrap gap-4">
+            <a href="tel:+16046815412" class="btn-gold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+              Call Now
+            </a>
+            <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC" target="_blank" rel="noopener" class="btn-outline-dark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Get Directions
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: map placeholder -->
+        <div>
+          <div class="map-placeholder">
+            <div style="opacity:0.4;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D4AF6A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <p class="font-display text-cream/60 text-lg">Yaletown, Vancouver</p>
+            <p class="text-cream/40 text-sm text-center px-8" style="line-height:1.7;">1208 Homer St #125 · Vancouver, BC V6B 2Y5</p>
+            <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC"
+               target="_blank" rel="noopener"
+               style="margin-top:0.5rem;font-size:0.75rem;color:#B8963E;text-decoration:underline;text-underline-offset:3px;letter-spacing:0.04em;">
+              Open in Google Maps ↗
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       7. FINAL CTA
+  ══════════════════════════════════════════ -->
+  <section id="cta" style="background:linear-gradient(160deg,#2D2926 0%,#1C1C1A 100%);padding:7rem 0;text-align:center;position:relative;overflow:hidden;">
+
+    <!-- Background decoration -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 50% 50%,rgba(184,150,62,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+
+    <div class="max-w-3xl mx-auto px-6 relative z-10">
+      <p class="section-label mb-4">Ready When You Are</p>
+      <div class="gold-rule mb-8"></div>
+      <h2 class="font-display text-cream mb-5" style="font-size:2.75rem;letter-spacing:-0.03em;line-height:1.15;">
+        Need your watch<br />
+        <em style="color:#D4AF6A;">looked at?</em>
+      </h2>
+      <p class="text-cream/50 mb-10 text-base" style="line-height:1.8;max-width:26rem;margin-left:auto;margin-right:auto;">
+        Drop by the shop in Yaletown or give us a call — we're happy to take a look and let you know what's needed.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="tel:+16046815412" class="btn-gold" style="padding:0.875rem 2.25rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+          Call (604) 681-5412
+        </a>
+        <a href="https://www.google.com/maps/search/1208+Homer+St+%23125,+Vancouver,+BC" target="_blank" rel="noopener" class="btn-outline" style="padding:0.875rem 2.25rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Get Directions
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer style="background-color:#141412;padding:2.5rem 1.5rem;text-align:center;border-top:1px solid rgba(184,150,62,0.1);">
+    <p class="font-display text-cream/50 text-sm mb-1">The German Watchmaker</p>
+    <p class="text-cream/30 text-xs">1208 Homer St #125 · Yaletown Shops · Vancouver, BC V6B 2Y5</p>
+    <p class="text-cream/20 text-xs mt-4" style="font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;">
+      Prototype — content to be confirmed with the client
+    </p>
+  </footer>
+
+
+  <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
+  <script>
+    // Scroll-activated nav background
+    const nav = document.getElementById("nav");
+    const onScroll = () => {
+      nav.classList.toggle("scrolled", window.scrollY > 60);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Smooth active-link highlighting
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll("nav a[href^='#']");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.forEach((link) => {
+              link.style.color = link.getAttribute("href") === `#${entry.target.id}`
+                ? "rgba(245,240,232,1)"
+                : "rgba(245,240,232,0.7)";
+            });
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    sections.forEach((s) => observer.observe(s));
+  </script>
+
+</body>
+</html>
